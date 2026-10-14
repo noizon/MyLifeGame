@@ -5,7 +5,7 @@
 ![Статус](https://img.shields.io/badge/status-active-success)
 ![Платформа](https://img.shields.io/badge/platform-Windows-blue)
 ![Язык](https://img.shields.io/badge/language-C%23-purple)
-![Framework](https://img.shields.io/badge/.NET-8.0-blueviolet)
+![Framework](https://img.shields.io/badge/.NET-9.0-blueviolet)
 
 ---
 
