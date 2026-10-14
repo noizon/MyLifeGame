@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace MyLifeGame.Models
@@ -34,9 +34,9 @@ namespace MyLifeGame.Models
         public string Name { get; set; } = "Безымянный";
         public int Age { get; set; } = 18;
 
-        // ⚠️ 1 ход = 1 неделя, 4 недели = 1 месяц
-        public int Week { get; set; } = 1;       // 1..4
-        public int Month { get; set; } = 1;      // 1..12
+        // 1 ход = 1 неделя, 4 недели = 1 месяц
+        public int Week { get; set; } = 1;
+        public int Month { get; set; } = 1;
         public int Year { get; set; } = 0;
 
         public int Health { get; set; } = 100;
@@ -49,6 +49,10 @@ namespace MyLifeGame.Models
         public string Job { get; set; } = "Бомж";
         public string Status { get; set; } = "🚮 Бомж";
         public int Chapter { get; set; } = 1;
+
+        // ── Бизнес: отдельный бонус к доходу, НЕ заменяет Job ──
+        public int BusinessBonus { get; set; } = 0;
+        public string BusinessName { get; set; } = null;
 
         // Семья
         public string SpouseName { get; set; } = null;
@@ -118,12 +122,14 @@ namespace MyLifeGame.Models
             {
                 int jobIncome = Job switch
                 {
+                    // Сюжетные работы
                     "Грузчик" => 4000,
                     "Продавец" => 6000,
                     "Владелец кофейни" => 15000,
                     "Бизнесмен" => 40000,
                     "Магнат" => 150000,
 
+                    // Работы из случайных событий
                     "Курьер" => 5000,
                     "Официант" => 4500,
                     "Уборщик" => 3500,
@@ -133,6 +139,7 @@ namespace MyLifeGame.Models
                     "Упаковщик" => 4000,
                     "Мойщик" => 3500,
 
+                    // Работы после вуза
                     "Программист" => 25000,
                     "Врач" => 22000,
                     "Юрист" => 28000,
@@ -143,7 +150,9 @@ namespace MyLifeGame.Models
                 };
 
                 jobIncome = (int)(jobIncome * EducationBonus);
-                return jobIncome + GetAssetsIncome();
+
+                // ⚠️ СУММИРУЕМ: зарплата + активы + бизнес-бонус
+                return jobIncome + GetAssetsIncome() + BusinessBonus;
             }
         }
 
