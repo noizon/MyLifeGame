@@ -1,4 +1,4 @@
-﻿using MyLifeGame.Models;
+using MyLifeGame.Models;
 
 namespace MyLifeGame.Patterns.EventStrategies
 {
@@ -85,7 +85,6 @@ namespace MyLifeGame.Patterns.EventStrategies
                         x.Health += 20;
                         x.Happiness += 10;
                     }),
-                    // ⚠️ НЕДОСТУПНО если денег < 200
                     IsAvailable = p => p.Money >= 200,
                     NotAvailableReason = "❌ Нужно 200₽"
                 }
@@ -109,7 +108,7 @@ namespace MyLifeGame.Patterns.EventStrategies
                 new EventChoice
                 {
                     Text = "💼 Устроиться грузчиком  →  статус 🏚️ Работяга",
-                    ResultMessage = "Ты получил работу! Теперь каждый месяц капает зарплата.",
+                    ResultMessage = "Ты получил работу!",
                     Effect = p => p.Modify(x =>
                     {
                         if (x.Job == "Бомж" || x.Job == "Безработный")
@@ -119,7 +118,6 @@ namespace MyLifeGame.Patterns.EventStrategies
                             x.Energy = 100;
                         }
                     }),
-                    // ⚠️ НЕДОСТУПНО если уже работаешь
                     IsAvailable = p => p.Job == "Бомж" || p.Job == "Безработный",
                     NotAvailableReason = "❌ Ты уже работаешь"
                 },
@@ -178,21 +176,24 @@ namespace MyLifeGame.Patterns.EventStrategies
         public GameEvent Generate(Player player) => new GameEvent
         {
             Title = "💡 Бизнес-идея",
-            Description = "Можешь открыть кофейню за 30000₽. Доход: 15000₽/мес.",
+            Description = "Можешь открыть кофейню за 30000₽. Доход: +15000₽/мес К зарплате.",
             Choices =
             {
                 new EventChoice
                 {
-                    Text = "☕ Открыть кофейню  →  -30000₽,  доход +15000₽/мес",
-                    ResultMessage = "Твой бизнес открылся! Дело пошло.",
+                    Text = "☕ Открыть кофейню  →  -30000₽,  +15000₽/мес К ЗАРПЛАТЕ",
+                    ResultMessage = "Твой бизнес открылся! Доход идёт ПОВЕРХ зарплаты.",
                     Effect = p => p.Modify(x =>
                     {
-                        x.Money -= 30000;
-                        x.Job = "Владелец кофейни";
-                        x.Status = "💼 Бизнесмен";
-                        x.Happiness += 20;
+                        if (x.Money >= 30000)
+                        {
+                            x.Money -= 30000;
+                            x.BusinessBonus += 15000;
+                            x.BusinessName = "Кофейня";
+                            x.Status = "💼 Бизнесмен";
+                            x.Happiness += 20;
+                        }
                     }),
-                    // ⚠️ НЕДОСТУПНО если денег < 30000
                     IsAvailable = p => p.Money >= 30000,
                     NotAvailableReason = "❌ Нужно 30000₽"
                 },
@@ -216,18 +217,22 @@ namespace MyLifeGame.Patterns.EventStrategies
         public GameEvent Generate(Player player) => new GameEvent
         {
             Title = "🏢 Расширение бизнеса",
-            Description = "Вложить 100000₽ в новую точку? Доход вырастет до 40000₽/мес.",
+            Description = "Вложить 100000₽ в новую точку? Доход +40000₽/мес К ЗАРПЛАТЕ.",
             Choices =
             {
                 new EventChoice
                 {
-                    Text = "📈 Вложить  →  -100000₽,  доход +40000₽/мес",
-                    ResultMessage = "Открыл вторую точку!",
+                    Text = "📈 Вложить  →  -100000₽,  +40000₽/мес К ЗАРПЛАТЕ",
+                    ResultMessage = "Открыл вторую точку! Доход суммируется с зарплатой.",
                     Effect = p => p.Modify(x =>
                     {
-                        x.Money -= 100000;
-                        x.Job = "Бизнесмен";
-                        x.Status = "💼 Магнат";
+                        if (x.Money >= 100000)
+                        {
+                            x.Money -= 100000;
+                            x.BusinessBonus += 40000;
+                            x.BusinessName = "Империя";
+                            x.Status = "💼 Магнат";
+                        }
                     }),
                     IsAvailable = p => p.Money >= 100000,
                     NotAvailableReason = "❌ Нужно 100000₽"
@@ -261,9 +266,12 @@ namespace MyLifeGame.Patterns.EventStrategies
                     ResultMessage = "Ты стал меценатом!",
                     Effect = p => p.Modify(x =>
                     {
-                        x.Money -= 200000;
-                        x.Happiness += 40;
-                        x.Status = "🏆 Миллионер-меценат";
+                        if (x.Money >= 200000)
+                        {
+                            x.Money -= 200000;
+                            x.Happiness += 40;
+                            x.Status = "🏆 Миллионер-меценат";
+                        }
                     }),
                     IsAvailable = p => p.Money >= 200000,
                     NotAvailableReason = "❌ Нужно 200000₽"
