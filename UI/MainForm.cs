@@ -239,7 +239,6 @@ namespace MyLifeGame.UI
 
         private void InitNextTurnTimer()
         {
-            // ⚡ 250ms — быстрые ходы
             nextTurnTimer = new WinFormsTimer { Interval = 250 };
             nextTurnTimer.Tick += (s, e) =>
             {
@@ -1103,9 +1102,6 @@ namespace MyLifeGame.UI
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════
-    //   🏦 БАНК
-    // ═══════════════════════════════════════════════════════════════
     public class BankDialog : Form
     {
         private readonly GameEngine _engine;
@@ -1518,9 +1514,6 @@ namespace MyLifeGame.UI
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════
-    //   МАГАЗИН АКТИВОВ
-    // ═══════════════════════════════════════════════════════════════
     public class ShopDialog : Form
     {
         private readonly GameEngine _engine;
