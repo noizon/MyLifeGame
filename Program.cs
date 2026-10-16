@@ -10,7 +10,7 @@ namespace MyLifeGame
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-            Application.Run(new MenuForm());   // ⚠️ ЗАПУСК МЕНЮ, НЕ MainForm
+            Application.Run(new MenuForm());   
         }
     }
 }
