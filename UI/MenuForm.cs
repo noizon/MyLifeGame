@@ -10,9 +10,6 @@ using WinFormsTimer = System.Windows.Forms.Timer;
 
 namespace MyLifeGame.UI
 {
-    // ═══════════════════════════════════════════════════════════════
-    //   ГЛАВНОЕ МЕНЮ
-    // ═══════════════════════════════════════════════════════════════
     public class MenuForm : Form
     {
         private Label lblTitle;
@@ -108,9 +105,6 @@ namespace MyLifeGame.UI
             }
         }
 
-        // ═══════════════════════════════════════════════
-        //   ФОН
-        // ═══════════════════════════════════════════════
         protected override void OnPaintBackground(PaintEventArgs e)
         {
             if (_closing) return;
@@ -205,9 +199,6 @@ namespace MyLifeGame.UI
             }
         }
 
-        // ═══════════════════════════════════════════════
-        //   АНИМАЦИЯ
-        // ═══════════════════════════════════════════════
         private void StartAnimation()
         {
             animTimer = new WinFormsTimer { Interval = 33 };
@@ -244,9 +235,6 @@ namespace MyLifeGame.UI
             subtitleTimer.Start();
         }
 
-        // ═══════════════════════════════════════════════
-        //   UI
-        // ═══════════════════════════════════════════════
         private void BuildUI()
         {
             lblTitle = new Label
@@ -414,9 +402,6 @@ namespace MyLifeGame.UI
             }
         }
 
-        // ═══════════════════════════════════════════════
-        //   PAINT
-        // ═══════════════════════════════════════════════
         private void MenuButton_Paint(object sender, PaintEventArgs e)
         {
             if (_closing) return;
@@ -465,9 +450,6 @@ namespace MyLifeGame.UI
                 g.DrawString("▶", arrowFont, br, new RectangleF(0, 0, b.Width - 25, b.Height), sf);
         }
 
-        // ═══════════════════════════════════════════════
-        //   ДЕЙСТВИЯ
-        // ═══════════════════════════════════════════════
         private void ContinueGame()
         {
             var slots = _saveService.GetSaveSlots();
@@ -491,7 +473,6 @@ namespace MyLifeGame.UI
                 return;
             }
 
-            // ⚠️ Снимаем TopMost с меню, чтобы не было фриза
             bool wasTopMost = TopMost;
             TopMost = false;
 
@@ -507,7 +488,6 @@ namespace MyLifeGame.UI
             Hide();
             main.Show();
 
-            // Меню скрыто — TopMost вернётся при Show()
         }
 
         private void NewGame()
@@ -607,9 +587,6 @@ namespace MyLifeGame.UI
             }
         }
 
-        // ═══════════════════════════════════════════════
-        //   ФУЛЛСКРИН
-        // ═══════════════════════════════════════════════
         private void ApplyFullscreen()
         {
             _prevBounds = Bounds;
@@ -676,9 +653,6 @@ namespace MyLifeGame.UI
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════
-    //   ДИАЛОГ ЗАГРУЗКИ ИГРЫ
-    // ═══════════════════════════════════════════════════════════════
     public class LoadGameDialog : Form
     {
         public GameState SelectedState { get; private set; }
@@ -837,9 +811,6 @@ namespace MyLifeGame.UI
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════
-    //   ДИАЛОГ НАСТРОЕК
-    // ═══════════════════════════════════════════════════════════════
     public class SettingsDialog : Form
     {
         public bool Fullscreen { get; private set; }
@@ -934,9 +905,6 @@ namespace MyLifeGame.UI
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════
-    //   ДИАЛОГ ВЫБОРА СЛОТА ДЛЯ СОХРАНЕНИЯ
-    // ═══════════════════════════════════════════════════════════════
     public class SaveSlotDialog : Form
     {
         public int SelectedSlot { get; private set; } = 0;
