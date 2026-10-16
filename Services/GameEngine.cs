@@ -36,34 +36,28 @@ namespace MyLifeGame.Services
 
             State.Player.Modify(p =>
             {
-                // ═══════════════════════════════════════
-                //   ⚡ ВРЕМЯ: 1 ход = 1 неделя
-                // ═══════════════════════════════════════
+
                 p.Week++;
                 if (p.Week > 4)
                 {
-                    // ─── КОНЕЦ МЕСЯЦА ───
+
                     p.Week = 1;
                     p.Month++;
                     monthEnded = true;
 
                     if (p.Month > 12)
                     {
-                        // ─── КОНЕЦ ГОДА ───
+                
                         p.Month = 1;
                         p.Year++;
                         p.Age++;
                     }
                 }
 
-                // ═══════════════════════════════════════
-                //   💰 ЭКОНОМИКА — доход КАЖДУЮ НЕДЕЛЮ (1/4)
-                // ═══════════════════════════════════════
+
                 p.Money += p.WeeklyIncome;
 
-                // ═══════════════════════════════════════
-                //   🏦 БАНК — платёж РАЗ В МЕСЯЦ
-                // ═══════════════════════════════════════
+
                 if (monthEnded && p.HasLoan)
                 {
                     if (p.Money >= p.LoanMonthlyPayment)
@@ -101,16 +95,12 @@ namespace MyLifeGame.Services
                     }
                 }
 
-                // ─── Банкрот ───
                 if (p.Money < -50000)
                 {
                     p.Health -= 5;
                     p.Happiness -= 5;
                 }
 
-                // ═══════════════════════════════════════
-                //   🧾 НАЛОГ — РАЗ В ГОД (в январе, 1-я неделя)
-                // ═══════════════════════════════════════
                 if (p.Month == 1 && p.Week == 1 && p.Year > 0)
                 {
                     int tax = p.CalculateYearlyTax();
@@ -140,22 +130,18 @@ namespace MyLifeGame.Services
                     }
                 }
 
-                // ─── Здоровье ───
                 if (p.Age > 50) p.Health -= 1;
                 if (p.Age > 70) p.Health -= 2;
                 if (p.Age < 30 && p.Health < 100) p.Health += 1;
 
-                // ─── Интеллект / Счастье ───
                 if (p.Money > 5000) p.Intelligence += 1;
                 if (p.Money < 100) p.Happiness -= 2;
                 if (p.Money > 10000) p.Happiness += 1;
 
-                // ─── Активы ───
                 if (p.HasAsset("sleeping_bag")) p.Health += 5;
                 if (p.HasAsset("bike")) p.Health += 1;
                 if (p.HasAsset("yacht")) p.Happiness += 2;
 
-                // ─── Семья ───
                 if (p.IsMarried)
                 {
                     if (p.Money > 0)
@@ -291,8 +277,6 @@ namespace MyLifeGame.Services
 
         public void QueueChain(string id, string description, int delayMonths)
         {
-            // ⚠️ delayMonths теперь в ХОДАХ (1 ход = 1 неделя)
-            // 1 месяц = 4 хода
             State.Player.PendingChains.Add(new PendingChain
             {
                 Id = id,
