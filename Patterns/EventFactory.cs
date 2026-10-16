@@ -31,7 +31,7 @@ namespace MyLifeGame.Patterns
             // Глава 4
             Register(4, new ExpansionStrategy());
 
-            // Глава 5 — только 1 сюжетное, чтоб не надоедало
+            // Глава 5 
             Register(5, new CharityStrategy());
 
             // Общие
@@ -51,7 +51,7 @@ namespace MyLifeGame.Patterns
 
         public GameEvent CreateForChapter(int chapter, Player player)
         {
-            // ⚡ 5-я глава — 70% случайных, 30% сюжетных (чтоб не было однообразия)
+            
             int randomChance = chapter >= 4 ? 70 : 40;
 
             if (_rnd.Next(100) < randomChance && _randomByChapter.ContainsKey(chapter))
@@ -59,7 +59,7 @@ namespace MyLifeGame.Patterns
                 return _randomByChapter[chapter].Generate(player);
             }
 
-            // 15% общее событие (в главе 5 — 10%)
+            
             int commonChance = chapter >= 4 ? 10 : 15;
             if (_rnd.Next(100) < commonChance && _byChapter.ContainsKey(0) && _byChapter[0].Count > 0)
             {
@@ -71,7 +71,7 @@ namespace MyLifeGame.Patterns
             // Сюжетное
             if (!_byChapter.ContainsKey(chapter) || _byChapter[chapter].Count == 0)
             {
-                // фолбэк — случайное
+                
                 if (_randomByChapter.ContainsKey(chapter))
                     return _randomByChapter[chapter].Generate(player);
 
