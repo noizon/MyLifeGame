@@ -50,7 +50,6 @@ namespace MyLifeGame.Models
         public string Status { get; set; } = "🚮 Бомж";
         public int Chapter { get; set; } = 1;
 
-        // ── Бизнес: отдельный бонус к доходу, НЕ заменяет Job ──
         public int BusinessBonus { get; set; } = 0;
         public string BusinessName { get; set; } = null;
 
@@ -77,7 +76,7 @@ namespace MyLifeGame.Models
         public int LoansTaken { get; set; } = 0;
         public int LoansDefaulted { get; set; } = 0;
 
-        // Прочее
+     
         public List<string> Achievements { get; set; } = new List<string>();
         public List<string> OwnedAssets { get; set; } = new List<string>();
         public List<Npc> KnownNpcs { get; set; } = new List<Npc>();
@@ -115,7 +114,7 @@ namespace MyLifeGame.Models
             }
         }
 
-        // ── ДОХОД (в месяц) ──
+
         public int MonthlyIncome
         {
             get
@@ -151,12 +150,12 @@ namespace MyLifeGame.Models
 
                 jobIncome = (int)(jobIncome * EducationBonus);
 
-                // ⚠️ СУММИРУЕМ: зарплата + активы + бизнес-бонус
+
                 return jobIncome + GetAssetsIncome() + BusinessBonus;
             }
         }
 
-        // ── ДОХОД ЗА ХОД (1 неделя = 1/4 месяца) ──
+
         public int WeeklyIncome => MonthlyIncome / 4;
 
         public int GetAssetsIncome()
