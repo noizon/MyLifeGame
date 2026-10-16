@@ -16,10 +16,10 @@ namespace MyLifeGame.Models
         public Action<Player> Effect { get; set; }
         public string ResultMessage { get; set; }
 
-        // ⚠️ НОВОЕ: функция доступности (если null — всегда доступно)
+        
         public Func<Player, bool> IsAvailable { get; set; }
 
-        // ⚠️ НОВОЕ: причина недоступности (показывается если не доступно)
+        
         public string NotAvailableReason { get; set; } = "Недоступно";
 
         public bool CanChoose(Player player)
